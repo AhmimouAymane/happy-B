@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cake Animation</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <div class="birthday-cake">
+        <div class="holder"></div>
+        <div class="shadow"></div>
+        <div class="cake">
+          <div class="chocolate"></div>
+        </div>
+        <div class="candle"></div>
+        <div class="flame"></div>
+      </div>
+    <audio id="myAudio" controls>
+        <source src="HAPPY BIRTHDAY  ( traditional ).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <script>
+        setTimeout(function() {
+        // Votre script JavaScript ici
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(function(stream) {
+            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            var source = audioContext.createMediaStreamSource(stream);
+            var analyser = audioContext.createAnalyser();
+            analyser.fftSize = 2048;
+            source.connect(analyser);
+    
+            var bufferLength = analyser.frequencyBinCount;
+            var dataArray = new Uint8Array(bufferLength);
+    
+            function detecterSon() {
+              analyser.getByteFrequencyData(dataArray);
+              var max = Math.max.apply(null, dataArray);
+    
+              // Si le niveau sonore maximum dépasse un certain seuil, éteindre la flamme
+              if (max > 10) { // Modifier ce seuil selon vos besoins
+                var flame = document.querySelector('.flame');
+                flame.classList.add('fade-out');
+              }
+            }
+    
+            setTimeout(function() {
+              stream.getTracks().forEach(function(track) {
+                track.stop();
+              });
+            }, 3000); // Enregistrer pendant 1 seconde
+    
+            // Appeler la fonction de détection du son une fois l'enregistrement terminé
+            setTimeout(detecterSon, 1000);
+          })
+          .catch(function(err) {
+            console.error('Accès au microphone refusé : ', err);
+          },);
+        },50000);
+      </script>
+  </body>
+</html>
