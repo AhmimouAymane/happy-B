@@ -1,5 +1,5 @@
 body {
-    background-color: #68b0ab;
+    background-color: #90ee90;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -154,6 +154,17 @@ body {
     left: 26.5px;
     animation: flame 0.5s infinite;
   }
+
+  .cake-info {
+    border: 5px #F4D03F;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    position: absolute;
+    top: 90%;
+    /*left: 40%;
+    transform: translate(0, -50%);*/
+}
   @keyframes flame {
     from, to { transform: scale(1, 1); }
     25% { transform: scale(0.9, 1.1); }
@@ -170,6 +181,6 @@ body {
   audio {
     position: absolute;
     top: 5%;
-    left: 38.5%;
+    left: 40%;
     transform: translate(0, -50%);
   }
